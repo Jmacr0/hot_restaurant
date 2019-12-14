@@ -9,18 +9,20 @@ app.use(express.json());
 
 
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "home.html"));
+    res.sendFile(path.join(__dirname, "Public", "home.html"));
 });
 
-app.get("/reservation", function (req, res) {
-    res.sendFile(path.join(__dirname, "reservation.html"));
+app.get("/reserves", function (req, res) {
+    res.sendFile(path.join(__dirname, "Public", "reserves.html"));
 });
 
-app.get("/tables", function (req, res) {
-    res.sendFile(path.join(__dirname, "tables.html"));
+app.get("/table", function (req, res) {
+    res.sendFile(path.join(__dirname, "Public", "table.html"));
 });
 
-app.post("reservation")
+app.post("reservation", function(req, res) {
+    
+})
 
 
 app.listen(PORT, function () {
