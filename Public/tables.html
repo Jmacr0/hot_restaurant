@@ -11,7 +11,7 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <style>
-    body{
+    body {
       background-image: url("https://c1.wallpaperflare.com/preview/362/423/809/food-meal-restaurant-dish.jpg");
       background-repeat: no-repeat;
       background-size: cover;
@@ -30,7 +30,8 @@
       <br>
 
       <div class="text-center">
-        <a href="/reserves"><button class="btn btn-lg btn-primary"><span class="fa fa-credit-card"></span> Make Reservation</button></a>
+        <a href="/reservations"><button class="btn btn-lg btn-primary"><span class="fa fa-credit-card"></span> Make
+            Reservation</button></a>
         <a href="/"><button class="btn btn-lg btn-default"><span class="fa fa-home"></span></button></a>
       </div>
     </div>
@@ -39,14 +40,15 @@
       <div class="col-lg-12">
 
         <!-- Current Tables in Use -->
-        <div class="card">
+        <div class="card mt-4">
           <div class="card-header">
-            <h4>Current Reservations</h4>
+            <h4>Reservations</h4>
           </div>
           <div class="card-body">
             <ul id="tableList" class="list-group"></ul>
           </div>
         </div>
+
 
         <!-- Waiting List Card -->
         <div class="card mt-4">
@@ -63,11 +65,56 @@
 
     <footer class="footer mt-4">
       <div class="container">
-        <p><a href="#" id="clear">Clear Table</a> | <a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API
+        <p><a id="clear" style="cursor: pointer;">Clear Table</a> | <a href="/api/reservations">API Table Link</a> | <a href="/api/waitlist">API
             Wait List</a>
       </div>
     </footer>
 
   </div>
 
+  <script>
+    $.ajax({
+      method: "GET",
+      url: "/api"
+    }).then((res) => {
+      for (reservation of res.reservations) {
+        $("#tableList").append(
+          `<div class="card m-3">
+            <div class="card-header">
+              ${reservation.name}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">${reservation.phone}</li>
+              <li class="list-group-item">${reservation.email}</li>
+              <li class="list-group-item">${reservation.id}</li>
+            </ul>
+          </div>`
+        );
+      }
+      for (reservation of res.waitlist) {
+        $("#waitList").append(
+          `<div class="card m-3">
+            <div class="card-header">
+              ${reservation.name}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">${reservation.phone}</li>
+              <li class="list-group-item">${reservation.email}</li>
+              <li class="list-group-item">${reservation.id}</li>
+            </ul>
+          </div>`
+        );
+      }
+    })
+
+    $("#clear").on("click", clearReservations);
+
+    function clearReservations() {
+      $.ajax({method: "POST", url: "/api/clear"}).then(function(){
+        $("#waitList").empty();
+        $("#tableList").empty();
+      })
+    }
+
+  </script>
 </body>
