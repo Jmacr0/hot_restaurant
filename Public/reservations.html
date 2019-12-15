@@ -11,7 +11,7 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <style>
-    body{
+    body {
       background-image: url("https://c1.wallpaperflare.com/preview/362/423/809/food-meal-restaurant-dish.jpg");
       background-repeat: no-repeat;
       background-size: cover;
@@ -71,38 +71,36 @@
           </div>
         </div>
       </div>
+
+      <footer class="footer">
+        <div class="container">
+          <p>
+            <a href="">API Table Link</a> |
+            <a href="">API Wait List</a>
+        </div>
+      </footer>
+
     </div>
 
+    <script type="text/javascript">
+      // Question: What does this code do?
+      $(".submit-btn").on("click", function (event) {
+        event.preventDefault();
+        var newReservation = {
+          name: $("#reserve-name").val().trim(),
+          phone: $("#reserve-phone").val().trim(),
+          email: $("#reserve-email").val().trim(),
+          id: $("#reserve-unique-id").val().trim()
+        };
 
-    <footer class="footer">
-      <div class="container">
-        <p>
-          <a href="">API Table Link</a> |
-          <a href="">API Wait List</a>
-      </div>
-    </footer>
+        $.post("/reservations", newReservation)
+          .then(function (data) {
+            alert("Adding a new reservation...");
 
-  </div>
+          });
+      });
 
-  <script type="text/javascript">
-    // Question: What does this code do?
-    $(".submit-btn").on("click", function(event) {
-      event.preventDefault();
-      var newReservation = {
-        name: $("#reserve-name").val().trim(),
-        phone: $("#reserve-phone").val().trim(),
-        email: $("#reserve-email").val().trim(),
-        id: $("#reserve-unique-id").val().trim()
-      };
-
-      // Question: What does this code do??
-      $.post("/api/tables", newReservation)
-        .then(function(data) {
-          console.log("table.html", data);
-          alert("Adding a new table...");
-        });
-    });
-  </script>
+    </script>
 </body>
 
 </html>
